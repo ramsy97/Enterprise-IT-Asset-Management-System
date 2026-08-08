@@ -1,0 +1,27 @@
+@php($gid = 'itams-badge-'.Str::lower(Str::random(6)))
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {{ $attributes }}>
+    <defs>
+        <linearGradient id="{{ $gid }}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6366f1" />
+            <stop offset="1" stop-color="#8b5cf6" />
+        </linearGradient>
+    </defs>
+
+    <rect width="100" height="100" rx="24" fill="url(#{{ $gid }})" />
+
+    <g stroke="#ffffff" stroke-opacity="0.55" stroke-width="3.5" stroke-linecap="round">
+        <line x1="50" y1="50" x2="23" y2="23" />
+        <line x1="50" y1="50" x2="77" y2="23" />
+        <line x1="50" y1="50" x2="23" y2="77" />
+        <line x1="50" y1="50" x2="77" y2="77" />
+    </g>
+
+    <circle cx="23" cy="23" r="9" fill="#ffffff" fill-opacity="0.85" />
+    <circle cx="77" cy="23" r="9" fill="#ffffff" fill-opacity="0.85" />
+    <circle cx="23" cy="77" r="9" fill="#ffffff" fill-opacity="0.85" />
+    <circle cx="77" cy="77" r="9" fill="#ffffff" fill-opacity="0.85" />
+
+    <circle cx="50" cy="50" r="17" fill="#ffffff" />
+    <circle cx="50" cy="50" r="12" fill="url(#{{ $gid }})" />
+    <path d="M46 50h8M50 46v8" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+</svg>
