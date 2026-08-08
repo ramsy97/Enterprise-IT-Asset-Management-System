@@ -17,11 +17,22 @@ use App\Http\Controllers\QrController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\WarrantyController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return auth()->check() ? redirect()->route(auth()->user()->homeRoute()) : redirect()->route('login');
 });
+
+Route::get('/cron/{token}', function (string $token) {
+    $expected = (string) env('CRON_TOKEN', '');
+
+    abort_unless($expected !== '' && hash_equals($expected, $token), 403);
+
+    Artisan::call('schedule:run');
+
+    return response('ok');
+})->name('cron');
 
 require __DIR__.'/auth.php';
 

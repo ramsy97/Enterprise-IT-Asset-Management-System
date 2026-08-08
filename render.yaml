@@ -1,0 +1,75 @@
+# Render Blueprint — ITAMS Enterprise (free tier)
+#
+#   web  : Free instance (512 MB / 0.1 CPU), Docker (PHP 8.2 + Apache)
+#   pgsql : Free instance (256 MB / 1 GB, expires 30 days after creation)
+#
+# Deploy: Dashboard -> New -> Blueprint -> select this repository,
+#         or: https://render.com/new/blueprint?repository=...
+#
+# After the first deploy, set APP_URL to your live URL
+# (e.g. https://itams.onrender.com) and trigger a manual deploy.
+
+services:
+  - type: pgsql
+    name: itams-db
+    plan: free
+
+  - type: web
+    name: itams
+    runtime: docker
+    repo: https://github.com/ramsy97/Enterprise-IT-Asset-Management-System.git
+    plan: free
+    healthCheckPath: /up
+    autoDeploy: true
+
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        sync: false
+
+      # PostgreSQL (Render Postgres free)
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: itams-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: itams-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: itams-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: itams-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: itams-db
+          property: password
+
+      # No Redis / queue worker on the free tier -> database drivers + sync queue
+      - key: CACHE_STORE
+        value: database
+      - key: SESSION_DRIVER
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      # Token for the external cron endpoint (see README -> Deployment)
+      - key: CRON_TOKEN
+        generateValue: true
+
+      # Email reminders: keep "log" or switch to Resend (HTTP API, no SMTP port)
+      - key: MAIL_MAILER
+        value: log
+      - key: RESEND_API_KEY
+        sync: false

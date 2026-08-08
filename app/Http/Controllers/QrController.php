@@ -29,6 +29,11 @@ class QrController extends Controller
     {
         $relative = $this->qrCodeService->generate($asset);
 
+        if (! Storage::disk('public')->exists($relative)) {
+            $this->qrCodeService->flush($asset);
+            $relative = $this->qrCodeService->generate($asset);
+        }
+
         $contents = Storage::disk('public')->get($relative);
 
         return response($contents, 200)
