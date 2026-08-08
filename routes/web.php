@@ -103,6 +103,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     // ---------- Audits ----------
     Route::middleware('permission:audits.view|audits.create|audits.update|audits.delete')->group(function () {
         Route::resource('audits', AuditController::class);
+        Route::get('audits/{audit}/evidence', [AuditController::class, 'evidence'])->name('audits.evidence');
         Route::post('audits/{audit}/verify', [AuditController::class, 'verify'])->name('audits.verify');
     });
 

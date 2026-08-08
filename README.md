@@ -70,7 +70,20 @@ Seed with `php artisan db:seed` to create default roles, permissions, and an adm
 composer test
 ```
 
-## Deployment (Render free tier)
+## Deployment
+
+### Option A — InfinityFree / Byet.host (free, no credit card)
+
+Best for a no-cost shared host: build a ZIP on your machine, upload it through
+the File Manager, and run a one-time web installer (no SSH/Composer needed).
+
+```bash
+php deploy/infinityfree/build-deploy-package.php --no-build
+```
+
+Full step-by-step: [docs/DEPLOY_INFINITYFREE.md](docs/DEPLOY_INFINITYFREE.md).
+
+### Option B — Render free tier
 
 This repo ships with a [Dockerfile](Dockerfile) and a [render.yaml](render.yaml) blueprint that deploy the app on **Render's free plan** — a Docker-based web service (PHP 8.2 + Apache) backed by a free **PostgreSQL** database. No credit card is required.
 

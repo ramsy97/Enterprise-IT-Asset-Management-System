@@ -10,8 +10,10 @@ use App\Models\AuditRecord;
 use App\Services\AuditService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AuditController extends Controller
 {
@@ -62,6 +64,15 @@ class AuditController extends Controller
         $audit->load(['asset.category', 'asset.location', 'asset.currentHolder', 'auditor']);
 
         return view('audits.show', compact('audit'));
+    }
+
+    public function evidence(AuditRecord $audit): BinaryFileResponse
+    {
+        $this->authorize('viewAny', AuditRecord::class);
+
+        abort_unless(Storage::disk('public')->exists($audit->evidence_path), 404);
+
+        return Storage::disk('public')->download($audit->evidence_path);
     }
 
     public function edit(AuditRecord $audit): View

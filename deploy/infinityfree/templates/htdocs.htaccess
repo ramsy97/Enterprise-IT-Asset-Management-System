@@ -1,0 +1,13 @@
+# ITAMS Enterprise — InfinityFree / Byet.host
+# Place this file in htdocs/ so every request is served from public/.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Root and existing files are served directly; everything else goes to public/.
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Never serve hidden files (.env, .htaccess itself).
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

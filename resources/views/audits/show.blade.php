@@ -60,7 +60,7 @@
                     <div>
                         <dt class="text-label-md uppercase tracking-wider text-on-surface-variant">Evidence</dt>
                         <dd class="mt-1">
-                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($audit->evidence_path) }}" target="_blank" class="inline-flex items-center gap-1 text-body-sm font-semibold text-secondary hover:underline">
+                            <a href="{{ route('audits.evidence', $audit) }}" target="_blank" class="inline-flex items-center gap-1 text-body-sm font-semibold text-secondary hover:underline">
                                 <span class="material-symbols-outlined text-[16px]">image</span>
                                 View evidence photo
                             </a>
