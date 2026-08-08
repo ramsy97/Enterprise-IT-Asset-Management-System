@@ -5,7 +5,7 @@ tanpa SSH dan tanpa Composer. Karena itu paket deploy dibuat di komputer lokal
 lalu di-upload lewat File Manager. Skrip build sudah disiapkan:
 
 - `deploy/infinityfree/build-deploy-package.php` — membuat `build/itams-deploy.zip`
-- `deploy/infinityfree/templates/setup.php` — installer satu kali (migrate + seed) via browser
+- `deploy/infinityfree/templates/setup.php` — installer satu kali (migrate + seed) via browser (ditempatkan di `public/setup.php`)
 - `deploy/infinityfree/templates/htdocs.htaccess` — rewrite `htdocs/` → `public/`
 - `deploy/infinityfree/templates/env.production` — template `.env` produksi
 
@@ -66,13 +66,14 @@ Control Panel → **PHP Settings** → pilih **PHP 8.2** atau **8.3**
 4. Struktur hasilnya harusnya:
    ```
    htdocs/
-   ├── .env
-   ├── .htaccess        <- rewrite ke public/
-   ├── setup.php
-   ├── artisan
-   ├── app/
-   ├── public/
-   └── vendor/
+  ├── .env
+  ├── .htaccess        <- rewrite ke public/
+  ├── artisan
+  ├── app/
+  ├── public/
+  │   ├── index.php
+  │   └── setup.php    <- installer (bekerja dari public/)
+  └── vendor/
    ```
 
 ## Langkah 6 — Isi `.env`
@@ -111,7 +112,7 @@ Setup finished. Login: admin@itams.local / password
 > `storage:link` bisa gagal bila host menonaktifkan symlink. Tidak masalah:
 > QR code dan bukti audit disajikan lewat route, bukan file `public/storage`.
 
-**WAJIB:** setelah sukses, hapus `htdocs/setup.php` dari File Manager.
+**WAJIB:** setelah sukses, hapus `htdocs/public/setup.php` dari File Manager.
 
 ## Langkah 8 — Coba akses
 

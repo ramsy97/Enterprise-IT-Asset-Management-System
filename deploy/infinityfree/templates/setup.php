@@ -17,10 +17,13 @@ declare(strict_types=1);
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Artisan;
 
-require __DIR__.'/vendor/autoload.php';
+// Works whether this file sits in htdocs/ or htdocs/public/.
+$base = str_ends_with(__DIR__, DIRECTORY_SEPARATOR.'public') ? dirname(__DIR__) : __DIR__;
+
+require $base.'/vendor/autoload.php';
 
 // Load .env before checking the token.
-$dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable($base);
 $dotenv->safeLoad();
 
 $expected = (string) (getenv('APP_SETUP_TOKEN') ?: '');
@@ -34,7 +37,7 @@ if ($expected === '' || ! hash_equals($expected, $token)) {
 header('Content-Type: text/plain; charset=utf-8');
 
 try {
-    $app = require __DIR__.'/bootstrap/app.php';
+    $app = require $base.'/bootstrap/app.php';
     $kernel = $app->make(Kernel::class);
     $kernel->bootstrap();
 

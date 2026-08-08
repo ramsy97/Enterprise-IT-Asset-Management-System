@@ -173,7 +173,7 @@ foreach ($skeleton as $dir) {
 // ---------------------------------------------------------------- 5. helpers
 fwrite(STDOUT, "[5/7] Adding .htaccess and setup.php...\n");
 copy(__DIR__.'/templates/htdocs.htaccess', STAGE.'/.htaccess');
-copy(__DIR__.'/templates/setup.php', STAGE.'/setup.php');
+copy(__DIR__.'/templates/setup.php', STAGE.'/public/setup.php');
 
 // ---------------------------------------------------------------- 6. .env
 fwrite(STDOUT, "[6/7] Writing .env...\n");
